@@ -1,0 +1,17 @@
+name: "esbuild Bundle Size Diff"
+author: "Jared Luxenberg"
+description: "Diffs 'metafile.json' output by esbuild to show bundle size changes"
+inputs:
+  base_path:
+    description: "Path to a metafile from a build on the base branch"
+  pr_path:
+    description: "Path to a metafile from a build on the PR branch"
+  github_token:
+    description: "Github token that is used for commenting"
+    default: "GITHUB_TOKEN"
+branding:
+  icon: pie-chart
+  color: gray-dark
+runs:
+  using: "node16"
+  main: "dist/index.js"
