@@ -7794,6 +7794,8 @@ var getClient = () => {
       "GitHub token not found; looked in env.GITHUB_TOKEN and input.github_token"
     );
   }
+  console.log("context contains", import_github.context);
+  console.log("instantiating octokit with token", githubToken);
   return (0, import_github.getOctokit)(githubToken);
 };
 var findComment = () => __async(exports, null, function* () {
