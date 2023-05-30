@@ -2094,7 +2094,7 @@ var require_core = __commonJS({
       process.env["PATH"] = `${inputPath}${path2.delimiter}${process.env["PATH"]}`;
     }
     exports2.addPath = addPath;
-    function getInput(name, options) {
+    function getInput2(name, options) {
       const val = process.env[`INPUT_${name.replace(/ /g, "_").toUpperCase()}`] || "";
       if (options && options.required && !val) {
         throw new Error(`Input required and not supplied: ${name}`);
@@ -2104,9 +2104,9 @@ var require_core = __commonJS({
       }
       return val.trim();
     }
-    exports2.getInput = getInput;
+    exports2.getInput = getInput2;
     function getMultilineInput(name, options) {
-      const inputs = getInput(name, options).split("\n").filter((x) => x !== "");
+      const inputs = getInput2(name, options).split("\n").filter((x) => x !== "");
       if (options && options.trimWhitespace === false) {
         return inputs;
       }
@@ -2116,7 +2116,7 @@ var require_core = __commonJS({
     function getBooleanInput(name, options) {
       const trueValue = ["true", "True", "TRUE"];
       const falseValue = ["false", "False", "FALSE"];
-      const val = getInput(name, options);
+      const val = getInput2(name, options);
       if (trueValue.includes(val))
         return true;
       if (falseValue.includes(val))
@@ -7785,10 +7785,10 @@ var require_github = __commonJS({
 // src/index.ts
 var import_fs = __toESM(require("fs"));
 var import_path = __toESM(require("path"));
-var import_core = __toESM(require_core());
+var core = __toESM(require_core());
 var import_github = __toESM(require_github());
 var getClient = () => {
-  const githubToken = import_core.default.getInput("github_token") || process.env.GITHUB_TOKEN;
+  const githubToken = core.getInput("github_token") || process.env.GITHUB_TOKEN;
   if (!githubToken) {
     throw new Error(
       "GitHub token not found; looked in env.GITHUB_TOKEN and input.github_token"
@@ -7916,8 +7916,8 @@ var diff = (baseMetafile, prMetafile) => {
 };
 var run = () => __async(exports, null, function* () {
   const { basePath, prPath } = {
-    basePath: import_core.default.getInput("base_path"),
-    prPath: import_core.default.getInput("pr_path")
+    basePath: core.getInput("base_path"),
+    prPath: core.getInput("pr_path")
   };
   const base = import_path.default.resolve(process.cwd(), basePath);
   const pr = import_path.default.resolve(process.cwd(), prPath);

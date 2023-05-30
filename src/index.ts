@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import core from "@actions/core";
+import * as core from "@actions/core";
 import { context, getOctokit } from "@actions/github";
 
 import { Metafile } from "esbuild";
