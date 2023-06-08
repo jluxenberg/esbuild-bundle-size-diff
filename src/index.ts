@@ -17,6 +17,8 @@ const getClient = () => {
   return getOctokit(githubToken);
 };
 
+const COMMENT_IDENTIFIER = "<!-- esbuild-bundle-size-diff-comment -->";
+
 const findComment = async () => {
   const comments = await getClient().rest.issues.listComments({
     owner: context.issue.owner,
@@ -24,10 +26,8 @@ const findComment = async () => {
     issue_number: context.issue.number,
   });
 
-  const identifier = "<!-- esbuild-bundle-size-diff-comment -->";
-
   for (const comment of comments.data) {
-    if (comment.body?.startsWith(identifier)) {
+    if (comment.body?.startsWith(COMMENT_IDENTIFIER)) {
       return comment.id;
     }
   }
@@ -44,7 +44,7 @@ const comment = async (message: string) => {
       owner: context.issue.owner,
       repo: context.issue.repo,
       comment_id: commentId,
-      body: message,
+      body: COMMENT_IDENTIFIER + message,
     });
     return;
   }
@@ -53,7 +53,7 @@ const comment = async (message: string) => {
     issue_number: context.issue.number,
     owner: context.repo.owner,
     repo: context.repo.repo,
-    body: message,
+    body: COMMENT_IDENTIFIER + message,
   });
 };
 
