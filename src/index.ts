@@ -14,9 +14,6 @@ const getClient = () => {
     );
   }
 
-  console.log("context contains", context);
-  console.log("instantiating octokit with token", githubToken);
-
   return getOctokit(githubToken);
 };
 
