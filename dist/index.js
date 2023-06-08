@@ -7794,10 +7794,9 @@ var getClient = () => {
       "GitHub token not found; looked in env.GITHUB_TOKEN and input.github_token"
     );
   }
-  console.log("context contains", import_github.context);
-  console.log("instantiating octokit with token", githubToken);
   return (0, import_github.getOctokit)(githubToken);
 };
+var COMMENT_IDENTIFIER = "<!-- esbuild-bundle-size-diff-comment -->";
 var findComment = () => __async(exports, null, function* () {
   var _a;
   const comments = yield getClient().rest.issues.listComments({
@@ -7805,9 +7804,8 @@ var findComment = () => __async(exports, null, function* () {
     repo: import_github.context.issue.repo,
     issue_number: import_github.context.issue.number
   });
-  const identifier = "<!-- esbuild-bundle-size-diff-comment -->";
   for (const comment2 of comments.data) {
-    if ((_a = comment2.body) == null ? void 0 : _a.startsWith(identifier)) {
+    if ((_a = comment2.body) == null ? void 0 : _a.startsWith(COMMENT_IDENTIFIER)) {
       return comment2.id;
     }
   }
@@ -7821,7 +7819,7 @@ var comment = (message) => __async(exports, null, function* () {
       owner: import_github.context.issue.owner,
       repo: import_github.context.issue.repo,
       comment_id: commentId,
-      body: message
+      body: COMMENT_IDENTIFIER + message
     });
     return;
   }
@@ -7829,7 +7827,7 @@ var comment = (message) => __async(exports, null, function* () {
     issue_number: import_github.context.issue.number,
     owner: import_github.context.repo.owner,
     repo: import_github.context.repo.repo,
-    body: message
+    body: COMMENT_IDENTIFIER + message
   });
 });
 var computeSizeByEntrypoint = (metafile) => {
@@ -7885,6 +7883,10 @@ var diff = (baseMetafile, prMetafile) => {
     const prSizeTotal = prSize.reduce((acc, { bytes }) => acc + bytes, 0);
     const diffSizeTotal = prSizeTotal - baseSizeTotal;
     const percentChange = (prSizeTotal - baseSizeTotal) / baseSizeTotal * 100;
+    if (diffSizeTotal <= 1e-3) {
+      result.push([entrypoint, "*", "", "", "no change"]);
+      return;
+    }
     result.push([
       entrypoint,
       "*",
