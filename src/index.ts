@@ -125,6 +125,11 @@ const diff = (baseMetafile: Metafile, prMetafile: Metafile) => {
     const diffSizeTotal = prSizeTotal - baseSizeTotal;
     const percentChange = ((prSizeTotal - baseSizeTotal) / baseSizeTotal) * 100;
 
+    if (diffSizeTotal <= 0.001) {
+      result.push([entrypoint, "*", "", "", "no change"]);
+      return;
+    }
+
     result.push([
       entrypoint,
       "*",
