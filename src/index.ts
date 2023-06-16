@@ -85,7 +85,7 @@ function bytesToSize(bytes: number) {
   if (!isFinite(bytes)) return "";
 
   const units = ["byte", "kilobyte", "megabyte", "terabyte", "petabyte"];
-  const unitIdx = Math.floor(Math.log(bytes) / Math.log(1024));
+  const unitIdx = Math.floor(Math.log(Math.abs(bytes)) / Math.log(1024));
   const unit = isFinite(unitIdx)
     ? units[unitIdx > units.length ? units.length - 1 : unitIdx]
     : units[0];
