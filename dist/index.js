@@ -7883,7 +7883,7 @@ var diff = (baseMetafile, prMetafile) => {
     const prSizeTotal = prSize.reduce((acc, { bytes }) => acc + bytes, 0);
     const diffSizeTotal = prSizeTotal - baseSizeTotal;
     const percentChange = (prSizeTotal - baseSizeTotal) / baseSizeTotal * 100;
-    if (diffSizeTotal <= 1e-3) {
+    if (Math.abs(diffSizeTotal) <= 1e-3) {
       result.push([entrypoint, "*", "", "", "no change"]);
       return;
     }
